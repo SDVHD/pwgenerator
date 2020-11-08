@@ -6,13 +6,14 @@
     <title>Sdv's Password Generator</title>
 </head>
 <body>
-    <input type="number" onchange="password_generator( len ) ">
+    <input type="number" id="in_lengh">
 </body>
-<script>function password_generator( len ) {
-    var length = (len)?(len):(10);
+<script> function password_generator(){
+    var len = document.getElementById("in_lengh").value;
+    var length = len ? len:(10);
     var string = "abcdefghijklmnopqrstuvwxyz"; //to upper 
     var numeric = '0123456789';
-    var punctuation = '!@#$%^&*()_+~`|}{[]\:;?><,./-=';
+    var punctuation = '!@#$%^&*()_+~|}{[]\:;?><-=';
     var password = "";
     var character = "";
     var crunch = true;
