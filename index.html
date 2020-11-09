@@ -1,75 +1,116 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sdv's Password Generator</title>
-</head>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Goldman&display=swap');
-    *{
-        font-family: 'Goldman', cursive;
-        color: #5DBF5A;
-        font-size: 20px;
-    }
-    html{
-        background-color: #171F26;
-    }
-    h1 {
-        font-size: 30px;
-    }
-
-    .content{
-
-    }
-    input{
-        background-color: #171F26;
-        border-radius: 5px;
-        border-color: #5DBF5A;
-        padding: 15px;
-    }
-</style>
-<body>
-    <h1>SDV's Password Generator</h1>
-    <div class="content">  
-        <label for="in_lengh">Länge: </label>      
-        <input type="number" id="in_lengh" name="in_lengh" min="6" value="6">
-        <label for="out_pw_field">Passwort: </label>
-        <input type="text" id="out_pw_field" name="out_pw_field">
-        <div class="div_btn_start"><button class="btn_start" onclick="reloadpage()">Start</button></div>
-    </div>
-</body>
-<script> 
-    function password_generator(){
-        var len = document.getElementById("in_lengh").value;
-        var length = len ? len:(10);
-        var string = "abcdefghijklmnopqrstuvwxyz"; //to upper 
-        var numeric = '0123456789';
-        var punctuation = '!@#$%&*()_+~|}{[]:;?><-=';
-        var password = "";
-        var character = "";
-        var crunch = true;
-        while( password.length<length ) {
-            entity1 = Math.ceil(string.length * Math.random()*Math.random());
-            entity2 = Math.ceil(numeric.length * Math.random()*Math.random());
-            entity3 = Math.ceil(punctuation.length * Math.random()*Math.random());
-            hold = string.charAt( entity1 );
-            hold = (password.length%2==0)?(hold.toUpperCase()):(hold);
-            character += hold;
-            character += numeric.charAt( entity2 );
-            character += punctuation.charAt( entity3 );
-            password = character;
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      	<link rel='icon' href='favicon.ico' type='image/x-icon'/>
+        <title>Sdv's Password Generator</title>
+    </head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Goldman&display=swap');
+        *{
+            font-family: 'Goldman', cursive;
+            color: #5DBF5A;
+            font-size: 20px;
+            text-align: center;
         }
-        password=password.split('').sort(function(){return 0.5-Math.random()}).join('');
-        return password.substr(0,len);
-    }
+        html{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            justify-content: center;
+            background-color: #171F26;
+        }
+        h1 {
+            font-size: 30px;
+        }
 
-    function reloadpage() {
-        location.reload();
-        document.getElementById("out_pw_field").value = password_generator();
+        input{
+            background-color: #171F26;
+            border-radius: 5px;
+            border-color: #5DBF5A;
+            padding: 15px;
+        }
+        textarea {
+            resize: none;
+            background-color: #171F26;
+            border-color: #5DBF5A;
+            border-radius: 5px;
+            padding: 15px;
+            height: auto;
+        }
+        button {
+            background-color: #171F26;
+            border-radius: 5px;
+            border-color: #5DBF5A;
+            font-size: 40px;
+            width: 100%;
+            margin-top: 20px;
 
-    }
+        }
+        label {
+            font-size: 25px;
+        }
+    </style>
+    <body>
+        <h1>SDV's Password Generator</h1>
+        <div class="content">  
+            <label for="in_lengh">Länge: </label><br>      
+            <input type="number" id="in_lengh" name="in_lengh" value="6"><br>
+            <label for="out_pw_field">Passwort: </label><br>
+            <textarea type="text" id="out_pw_field" name="out_pw_field" value="Hallo" readonly ></textarea>
+            <button class="btn_start" onclick="reloadpage()" >Start</button>
+            <button class="btn_clear" onclick="clear_all()">Clear</button>
+        </div>
+    </body>
+    <script>
+        var pwd;
 
-    console.log( password_generator() );
-</script>
+        function password_generator(){
+            var len = document.getElementById("in_lengh").value;
+            var length = len ? len:(10);
+            var string = "abcdefghijklmnopqrstuvwxyz"; //to upper 
+            var numeric = '0123456789';
+            var punctuation = '!@#$%&*()_+~|}{[]:;?><-=';
+            var password = "";
+            var character = "";
+            var crunch = true;
+            while( password.length<length ) {
+                entity1 = Math.ceil(string.length * Math.random()*Math.random());
+                entity2 = Math.ceil(numeric.length * Math.random()*Math.random());
+                entity3 = Math.ceil(punctuation.length * Math.random()*Math.random());
+                hold = string.charAt( entity1 );
+                hold = (password.length%2==0)?(hold.toUpperCase()):(hold);
+                character += hold;
+                character += numeric.charAt( entity2 );
+                character += punctuation.charAt( entity3 );
+                password = character;
+            }
+            password=password.split('').sort(function(){return 0.5-Math.random()}).join('');
+            pwd = password.substr(0,len);
+            return password.substr(0,len);
+        }
+        function check_input() {
+            var inp = document.getElementById("in_lengh").value;
+
+            if (inp >= 6) {
+                document.getElementById("btn_start").disabled = false;
+            }
+            else {
+                document.getElementById("btn_start").disabled = true;
+            }
+        }
+        function reloadpage() {
+            document.getElementById("out_pw_field").value = pwd;
+            location.reload();
+        }
+
+        function clear_all() {
+            document.getElementById("out_pw_field").value = "";
+            document.getElementById("in_lengh").value = 6;
+            localStorage.clear(); 
+            sessionStorage.clear();
+        }
+        console.log(password_generator());
+        console.log(pwd);
+    </script>
 </html>
